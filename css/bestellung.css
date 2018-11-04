@@ -1,0 +1,9 @@
+.pizzaList {
+    list-style-type: none;
+    display: inline;
+}
+
+.pizzaList:hover {
+    cursor: pointer;
+    background-color: grey;
+}
