@@ -1,9 +1,21 @@
-.pizzaList {
-    list-style-type: none;
-    display: inline;
+body {
+    display: block;
 }
 
-.pizzaList:hover {
+.flex-container {
+    padding: 2em !important;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+}
+
+.flex-item {
+    flex-shrink: 1;
+    flex-basis: auto;
+    margin: 1em !important;
+}
+
+.flex-item:hover {
     cursor: pointer;
-    background-color: grey;
+    background-color: white;
 }
