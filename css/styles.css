@@ -1,27 +1,17 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
 body {
     background: #eee;
-    font-size: 16px;
+    font-size: 1em;
     font-family: sans-serif, arial;
 }
 
+
+
 @media screen and (min-width: 480px) {
     header {
-        width: 1000px;
-        height: 120px;
-        margin: 0 auto;
-        position: relative;
-    }
-    .logo {
-        position: absolute;
-        left: 20px;
-        top: 30px;
+        display: none;
     }
     .nav {
+        opacity: 100%;
         width: 1000px;
         height: 60px;
         margin: 0 auto;
@@ -29,8 +19,8 @@ body {
     }
     .navbar {
         list-style: none;
-        width: 200px;
-        line-height: 60px;
+        width: 10em;
+        line-height: 6em;
         position: relative;
         background: #222;
         box-shadow: 0px 2px 5px 0px grey;
@@ -39,81 +29,59 @@ body {
         background: darkred;
     }
     ul li ul {
+        visibility: visible;
         position: absolute;
     }
-    .nav>ul>li:nth-of-type(1) {
-        border-radius: 5px 0px 0px 5px;
-    }
-    .nav>ul>li:nth-of-type(5) {
-        border-radius: 0px 5px 5px 0px;
-    }
     ul li a {
+        visibility: visible;
         color: #fff;
-        width: 200px;
-        height: 58px;
+        width: 100%;
+        height: 100%;
         display: inline-block;
         text-decoration: none;
+        text-align: center;
     }
     ul li a:hover {
         font-weight: bold;
         border-bottom: 2px solid #fff;
     }
-    ul li ul {
-        display: none;
-    }
-    .nav ul li:hover ul {
-        display: block;
-    }
-    .fa {
-        margin-right: 5px;
-    }
     .fa-list.modify {
         display: none;
-        font-size: 35px;
-        position: absolute;
-        right: 30px;
-        top: 60px;
-        cursor: pointer;
     }
-    .container {
-        width: 1000px;
-        height: 200px;
+    .er {
+        width: 100%;
+        height: 100%;
         margin: 0 auto;
         padding: 20px 20px;
     }
 }
 
 @media screen and (max-width: 480px) {
-    header {
-        width: 100%;
-    }
     .nav {
         display: none;
         width: 100%;
         height: auto;
     }
     ul li {
+        list-style-type: none;
         width: 100%;
         float: none;
     }
     ul li a {
+        float: right;
         width: 100%;
         display: block;
-    }
-    ul li ul {
-        position: static;
-    }
-    ul li ul li a {
-        background: #222;
+        background: darkred;
+        color: white;
     }
     .fa-list.modify {
-        display: block;
+        float: right;
+        display: inline;
+        cursor: pointer;
+        font-size: 2em;
     }
-    .container {
+    .er {
         width: 100%;
         height: auto;
-    }
-    body {
-        overflow-x: hidden;
     }
 }
