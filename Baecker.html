@@ -1,39 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>P1ZZ@</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+    <link rel="stylesheet" href="/css/baecker.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <!--Navigation bar-->
+    <div id="nav-placeholder">
+
+    </div>
+
+    <script>
+        $(function () {
+            $("#nav-placeholder").load("nav.html");
+        });
+    </script>
+    <!--end of Navigation bar-->
 
 
+    <div class="content">
+        <div class="heading">Bäcker</div>
 
+        &emsp;&emsp;&emsp;&emsp;Bestellt &ensp;im Ofen&ensp; Fertig
 
-    &emsp;&emsp;&emsp;&emsp;Bestellt &ensp;im Ofen&ensp; Fertig
+        <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl">
+            <div>
+                Margherita
 
-     <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl"> 
-        <div>
-            Margherita
-           
                 <input type="radio" name="margherita" value="ordered">&emsp;&emsp;
                 <input type="radio" name="margherita" value="stove">&emsp;&emsp;
                 <input type="radio" name="margherita" value="done">&emsp;&emsp;
-           
-        </div>
 
-        <div>
-            Margherita
-           
+            </div>
+
+            <div>
+                Margherita
+
                 <input type="radio" name="margherita1" value="ordered">&emsp;&emsp;
                 <input type="radio" name="margherita1" value="stove">&emsp;&emsp;
                 <input type="radio" name="margherita1" value="done">&emsp;&emsp;
-           
-        </div>
 
-        <div>
-            Hawaii
-            &emsp;&ensp;
+            </div>
+
+            <div>
+                Hawaii
+                &emsp;&ensp;
                 <input type="radio" name="hawaii" value="ordered">&emsp;&emsp;
                 <input type="radio" name="hawaii" value="stove">&emsp;&emsp;
                 <input type="radio" name="hawaii" value="done">&emsp;&emsp;
 
-        </div>
-
-        
-        <input type="submit" value="Submit">
-    </form>
+            </div>
 
 
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>

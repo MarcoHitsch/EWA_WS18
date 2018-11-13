@@ -5,43 +5,59 @@
 <head>
     <meta charset="UTF-8" />
     <title>Fahrer</title>
+    <link rel="stylesheet" href="css\fahrer.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
+    <!--Navigation bar-->
+    <div id="nav-placeholder">
 
+    </div>
 
-    <h3>Müller, Freßgasse 11, 65000 Frankfurt</h3>
+    <script>
+        $(function () {
+            $("#nav-placeholder").load("nav.html");
+        });
+    </script>
+    <!--end of Navigation bar-->
 
-    Tonno, Calzone, Margherita, Hawaii, Tonno
-    <br>
-    <br> Preis: 13€
-    <br>
-    <br>gebacken &ensp;unterwegs&ensp; ausgeliefert
-    <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl">
-        &ensp;&ensp;
-        <input type="radio" name="oder1" value="baked">&emsp;&emsp; &ensp;&ensp;&ensp;
-        <input type="radio" name="oder1" value="onroad">&emsp;&emsp; &ensp;
-        <input type="radio" name="oder1" value="delivered">&emsp;&emsp;
-        <input type="submit" value="Submit">
-    </form>
-   
-    <br>
-    <br>
+    <div class="content">
+        <div class="heading">Fahrer</div>
 
-    <h3>Meier, Haupstr 5</h3>
+        <h3>Müller, Freßgasse 11, 65000 Frankfurt</h3>
 
-    Tonno, Tonno, Margherita
-    <br>
-    <br> Preis: 10,50€
-    <br>
-    <br>gebacken &ensp;unterwegs&ensp; ausgeliefert
-    <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl">
-        &ensp;&ensp;
-        <input type="radio" name="oder1" value="baked">&emsp;&emsp; &ensp;&ensp;&ensp;
-        <input type="radio" name="oder1" value="onroad">&emsp;&emsp; &ensp;
-        <input type="radio" name="oder1" value="delivered">&emsp;&emsp;
-        <input type="submit" value="Submit">
-    </form>
+        Tonno, Calzone, Margherita, Hawaii, Tonno
+        <br>
+        <br> Preis: 13€
+        <br>
+        <br>gebacken &ensp;unterwegs&ensp; ausgeliefert
+        <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl">
+            &ensp;&ensp;
+            <input type="radio" name="oder1" value="baked">&emsp;&emsp; &ensp;&ensp;&ensp;
+            <input type="radio" name="oder1" value="onroad">&emsp;&emsp; &ensp;
+            <input type="radio" name="oder1" value="delivered">&emsp;&emsp;
+            <input type="submit" value="Submit">
+        </form>
+
+        <br>
+        <br>
+
+        <h3>Meier, Haupstr 5</h3>
+
+        Tonno, Tonno, Margherita
+        <br>
+        <br> Preis: 10,50€
+        <br>
+        <br>gebacken &ensp;unterwegs&ensp; ausgeliefert
+        <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl">
+            &ensp;&ensp;
+            <input type="radio" name="oder1" value="baked">&emsp;&emsp; &ensp;&ensp;&ensp;
+            <input type="radio" name="oder1" value="onroad">&emsp;&emsp; &ensp;
+            <input type="radio" name="oder1" value="delivered">&emsp;&emsp;
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 </body>
 
 </html>
