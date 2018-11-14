@@ -4,13 +4,12 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     color: whitesmoke;
-
 }
 
 .content {
     padding: 2em;
     max-width: 700px;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.3);
     margin: auto;
 }
 
@@ -22,4 +21,82 @@ body {
     font-size: 2em;
     border-bottom: 1px solid white;
     margin-bottom: 1em;
+}
+.order{
+    margin-bottom: 3em;
+}
+
+.customername {
+    font-size: 1.3em;
+    margin-right: 0.5em;
+    display: inline;
+}
+
+.price {
+    font-size: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.customeradress {
+    font-size: 1.3em;
+    display: inline;
+    margin-left: 0.5em;
+}
+
+input[type=radio] {
+    position: absolute;
+    visibility: hidden;
+    display: none;
+}
+
+.kundeform {
+    margin: 2em;
+}
+
+label {
+    flex-shrink: 1;
+    flex-basis: auto;
+    text-align: center;
+    color: white;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0.5em 1em 0.5em 1em;
+    flex: 1;
+}
+
+input[type=radio]:checked+label {
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.radio-group {
+    border: solid 2px white;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.button {
+    margin: 1em 0 2em 0;
+    vertical-align: middle;
+    display: inline;
+    width: 100%;
+    background-color: transparent;
+    border: solid 2px white;
+    color: white;
+    padding: 0.5em 1em 0.5em 1em;
+    text-align: center;
+    display: inline-block;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: rgba(255, 255, 255, 0.2);
 }

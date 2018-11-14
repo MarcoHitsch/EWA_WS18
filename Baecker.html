@@ -28,38 +28,16 @@
     <div class="content">
         <div class="heading">Bäcker</div>
 
-        &emsp;&emsp;&emsp;&emsp;Bestellt &ensp;im Ofen&ensp; Fertig
-
         <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl">
-            <div>
-                Margherita
-
-                <input type="radio" name="margherita" value="ordered">&emsp;&emsp;
-                <input type="radio" name="margherita" value="stove">&emsp;&emsp;
-                <input type="radio" name="margherita" value="done">&emsp;&emsp;
-
+            <h3>Mock-Pizza</h3>
+            <div class="pizzaform">
+                <div class="radio-group">
+                    <input type="radio" id="option-one" name="pizza" value="ordered"><label for="option-one">Bestellt</label>
+                    <input type="radio" id="option-two" name="pizza" value="stove"><label for="option-two">Ofen</label>
+                    <input type="radio" id="option-three" name="pizza" value="done"><label for="option-three">Fertig</label>
+                </div>
+                <input class="button" type="submit" value="Submit">
             </div>
-
-            <div>
-                Margherita
-
-                <input type="radio" name="margherita1" value="ordered">&emsp;&emsp;
-                <input type="radio" name="margherita1" value="stove">&emsp;&emsp;
-                <input type="radio" name="margherita1" value="done">&emsp;&emsp;
-
-            </div>
-
-            <div>
-                Hawaii
-                &emsp;&ensp;
-                <input type="radio" name="hawaii" value="ordered">&emsp;&emsp;
-                <input type="radio" name="hawaii" value="stove">&emsp;&emsp;
-                <input type="radio" name="hawaii" value="done">&emsp;&emsp;
-
-            </div>
-
-
-            <input type="submit" value="Submit">
         </form>
     </div>
 </body>
