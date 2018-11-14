@@ -1,0 +1,74 @@
+body {
+    background-image: url('../Res/image_bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: whitesmoke;
+}
+
+.content {
+    padding: 2em;
+    max-width: 700px;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: auto;
+}
+
+.heading {
+    text-align: center;
+    width: 100%;
+    height: 2em;
+    color: rgba(255, 255, 255, 0.753);
+    font-size: 2em;
+    border-bottom: 1px solid white;
+    margin-bottom: 1em;
+}
+
+.namebestellung {
+    font-size: 1.3em;
+    margin-right: 0.5em;
+    display: inline;
+}
+
+.container {
+    padding: 2em !important;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    margin-bottom: 3em;
+}
+
+.progress {
+    padding: 1em 0 1em 0;
+    margin: 0 1em 0 1em;
+    color: white;
+    border: solid 2px white;
+    flex-shrink: 1;
+    flex-basis: auto;
+    flex-shrink: 1;
+    flex-basis: auto;
+    text-align: center;
+    display: inline-block;
+    flex: 1;
+    border-radius: 5px;
+}
+
+.active {
+    background: rgba(23, 179, 23, 0.589);
+}
+
+.button {
+    width: 100%;
+    background-color: transparent;
+    border: solid 2px white;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 1em;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.button:hover{
+    background: rgba(255, 255, 255, 0.2);
+}
