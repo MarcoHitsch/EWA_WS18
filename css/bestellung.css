@@ -3,6 +3,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    /* background: linear-gradient(to bottom, #00070f, #00070f, #002750); */
     color: whitesmoke;
 }
 
@@ -83,7 +84,8 @@ body {
     cursor: pointer;
     border-radius: 5px;
 }
-.button:hover{
+
+.button:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
