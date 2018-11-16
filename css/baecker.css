@@ -79,3 +79,9 @@ input[type=radio]:checked+label {
 .button:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+
+@media screen and (max-width: 670px) {
+    h2 {
+        text-align: center;
+    }
+}

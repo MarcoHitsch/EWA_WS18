@@ -23,12 +23,6 @@ body {
     margin-bottom: 1em;
 }
 
-.namebestellung {
-    font-size: 1.3em;
-    margin-right: 0.5em;
-    display: inline;
-}
-
 .container {
     padding: 2em !important;
     display: flex;
@@ -69,6 +63,13 @@ body {
     cursor: pointer;
     border-radius: 5px;
 }
-.button:hover{
+
+.button:hover {
     background: rgba(255, 255, 255, 0.2);
+}
+
+@media screen and (max-width: 670px) {
+    h2 {
+        text-align: center;
+    }
 }

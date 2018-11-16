@@ -24,6 +24,8 @@ body {
     margin: auto;
 }
 
+.adressinput {}
+
 .flex-container {
     padding: 2em !important;
     display: flex;
@@ -94,4 +96,10 @@ body {
     flex-flow: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
+}
+
+@media screen and (max-width: 670px) {
+    h2 {
+        text-align: center;
+    }
 }
