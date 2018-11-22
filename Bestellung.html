@@ -1,163 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 
 <head>
-    <title>P1ZZ@</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-
-    <link rel="stylesheet" href="css\bestellung.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/css/bestellung.css">
+    <title>Bestellung</title>
 </head>
 
 <body>
-    <!--Navigation bar-->
-    <div id="nav-placeholder">
-
-    </div>
-
-    <script>
-        $(function () {
-            $("#nav-placeholder").load("nav.html");
-        });
-    </script>
-    <!--end of Navigation bar-->
-
-    <div class="content">
-
-        <div class="heading">Bestellung</div>
-
-        <section id="pizzen">
-            <h2>Sortiment</h2><br>
-            <div id="pizzaList" class="flex-container">
-                <div class="flex-item" data-pizza="margherita" data-price="5"><img alt="Margherita" src="Res/Pizza_Margherita.png"
-                        height="100" width="100" /><br><label>Pizza Margherita</label>
-                    <div>5,00 €</div>
-                </div>
-                <div class="flex-item" data-pizza="salami" data-price="6"><img alt="Salami" src="Res/Pizza_Salami.png"
-                        height="100" width="100" /><br><label>Pizza
-                        Salami</label>
-                    <div>6,00 €</div>
-                </div>
-                <div class="flex-item" data-pizza="prosciutto" data-price="6"><img alt="Prosciutto" src="Res/Pizza_Prosciutto.png"
-                        height="100" width="100" /><br><label>Pizza Prosciutto</label>
-                    <div>6,00 €</div>
-                </div>
-            </div>
+    <h1>Bestellung</h1>
+    <section id="pizzen">
+        <h2>Sortiment</h2>
+        <ul id="pizzaList">
+            <li class="pizzaList" data-pizza="margherita" data-price="5"><img alt="Margherita" src="Res/Pizza_Margherita.png"
+                    height="80" width="80" /><label>Pizza Margherita</label><label>5,00 €</label></li>
+            <li class="pizzaList" data-pizza="salami" data-price="6"><img alt="Salami" src="Res/Pizza_Salami.png"
+                    height="80" width="80" /><label>Pizza
+                    Salami</label><label>6,00 €</label></li>
+            <li class="pizzaList" data-pizza="prosciutto" data-price="6"><img alt="Prosciutto" src="Res/Pizza_Prosciutto.png"
+                    height="80" width="80" /><label>Pizza Prosciutto</label><label>6,00 €</label></li>
+        </ul>
+    </section>
+    <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl" id="form_order" onsubmit="return checkSubmit()">
+        <section id="warenkorb">
+            <h2>Warenkorb</h2>
+            <select name="pizzen" multiple="multiple" id="warenkorb_select"></select>
+            <div><span id="warenkorb_price">0</span> <span> €</span></div>
         </section>
-        <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl" id="form_order" method="POST" onsubmit="return checkSubmit()">
-            <section id="warenkorb">
-                <h2>Warenkorb</h2><br>
-                <select class="warenkorb" name="orders[]" multiple="multiple" id="warenkorb_select"></select>
-                <div><span id="warenkorb_price">0</span> <span> €</span></div>
-            </section>
-            <section id="adresse">
-                <h2>Lieferadresse</h2><br>
-                <input class="adressinput" name="adresse" type="text" id="input_adresse" required>
-            </section>
-            <br />
-            <div id="buttons" class="buttons">
-                <input type="button" class="button" value="Alle Löschen" id="button_deleteAll">
-                <input type="button" class="button" value="Auswahl Löschen" id="button_deleteSelected">
-                <input type="submit" class="button" value="Bestellen" id="button_order">
-            </div>
-        </form>
-    </div>
+        <section id="adresse">
+            <h2>Lieferadresse</h2>
+            Adresse<br /><input name="adresse" type="text" id="input_adresse" required>
+        </section>
+        <br />
+        <div id="buttons">
+            <input type="button" value="Alle Löschen" id="button_deleteAll">
+            <input type="button" value="Auswahl Löschen" id="button_deleteSelected">
+            <input type="submit" value="Bestellen" id="button_order">
+        </div>
+    </form>
 </body>
 <script src="js/Bestellung.js"></script>
-
-<!-- <script>
-    function pizzaImageClickHandler(pizzaValue, pizzaPrice) {
-        console.log("Handler " + pizzaValue);
-        var warenkorb = document.getElementById("warenkorb_select");
-        var newId = warenkorb.getElementsByTagName("option").length;
-        var opt = document.createElement('option');
-
-        opt.id = "p" + newId;
-        opt.value = pizzaValue;
-        opt.setAttribute("data-price", pizzaPrice);
-        opt.textContent = "Pizza " + pizzaValue;
-        warenkorb.appendChild(opt);
-
-        var priceTag = document.getElementById("warenkorb_price");
-        var totalPrice = parseFloat(priceTag.textContent) + parseFloat(pizzaPrice);
-        priceTag.textContent = totalPrice;
-    };
-
-    function checkSubmit() {
-        var warenkorb = document.getElementById("warenkorb_select");
-        if (warenkorb.options.length == 0) {
-            alert("Es ist keine Pizza im Warenkorb.")
-            return false;
-        }
-        else {
-            var warenkorb = document.getElementById("warenkorb_select");
-            var opts = warenkorb.getElementsByTagName("option");
-
-            for (var i = opts.length - 1; i >= 0; i--) {
-                opts[i].selected = true;
-            }
-            return true;
-        }
-
-    };
-
-    function deleteSelectedWarenkorb() {
-        var warenkorb = document.getElementById("warenkorb_select");
-        var opts = warenkorb.getElementsByTagName("option");
-        var priceTag = document.getElementById("warenkorb_price");
-        var totalPrice = parseFloat(priceTag.textContent);
-
-        for (var i = opts.length - 1; i >= 0; i--) {
-            if (opts[i].selected) {
-                totalPrice -= parseFloat(opts[i].getAttribute("data-price"));
-                console.log(totalPrice);
-                warenkorb.remove(i);
-            }
-        }
-        priceTag.textContent = totalPrice;
-    };
-
-    function deleteAllWarenkorb() {
-        var warenkorb = document.getElementById("warenkorb_select");
-        var priceTag = document.getElementById("warenkorb_price");
-
-        warenkorb.options.length = 0;
-        priceTag.textContent = "0";
-    };
-
-
-
-
-
-    // Setup Pizza Klick in Warenkorb
-    var list = document.getElementById("pizzaList");
-    // var items = list.getElementsByTagName("li");
-    var items = document.getElementsByClassName("flex-item");
-    for (var i = 0; i < items.length; i++) {
-        var pizzaValue = items[i].getAttribute("data-pizza");
-        items[i].addEventListener("click",
-            function () {
-                pizzaImageClickHandler(this.getAttribute("data-pizza"), this.getAttribute("data-price"));
-            });
-    };
-
-    // Setup Warenkorb leeren Buttons
-    var btn_DeleteAll = document.getElementById("button_deleteAll");
-    var btn_DeleteSelected = document.getElementById("button_deleteSelected");
-
-    btn_DeleteSelected.onclick = function () { deleteSelectedWarenkorb(); };
-    btn_DeleteAll.onclick = function () { deleteAllWarenkorb(); };
-
-
-    // Setup Order Button Disabled
-    var btn_order = document.getElementById("button_order");
-    var input_Adresse = document.getElementById("input_adresse");
-    btn_order.disabled = true;
-    input_Adresse.addEventListener('input', function (e) {
-        var button_order = document.getElementById("button_order");
-        button_order.disabled = this.value == "";
-    });
-
-</script> -->
+</html>

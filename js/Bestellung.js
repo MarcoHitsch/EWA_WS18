@@ -1,22 +1,18 @@
-function pizzaImageClickHandler(pizzaID, pizzaName, pizzaPrice) {
-    console.log("Handler " + pizzaName);
-        var warenkorb = document.getElementById("warenkorb_select");
-        // var newId = warenkorb.getElementsByTagName("option").length;
-        // var opt = document.createElement('option');
+function pizzaImageClickHandler(pizzaValue, pizzaPrice) {
+    console.log("Handler " + pizzaValue);
+    var warenkorb = document.getElementById("warenkorb_select");
+    var newId = warenkorb.getElementsByTagName("option").length;
+    var opt = document.createElement('option');
 
-        opt = new Option(pizzaName, pizzaID);
-        opt.setAttribute('data-price', pizzaPrice);
+    opt.id = "p" + newId;
+    opt.value = pizzaValue;
+    opt.setAttribute("data-price", pizzaPrice);
+    opt.textContent = "Pizza " + pizzaValue;
+    warenkorb.appendChild(opt);
 
-        // opt.id = pizzaID;
-        // opt.value = pizzaName;
-        // opt.setAttribute("data-price", pizzaPrice);
-        // opt.textContent = "Pizza " + pizzaName;
-        // warenkorb.appendChild(opt);
-        warenkorb[warenkorb.length] = opt;
-
-        var priceTag = document.getElementById("warenkorb_price");
-        var totalPrice = parseFloat(priceTag.textContent) + parseFloat(pizzaPrice);
-        priceTag.textContent = totalPrice;
+    var priceTag = document.getElementById("warenkorb_price");
+    var totalPrice = parseFloat(priceTag.textContent) + parseFloat(pizzaPrice);
+    priceTag.textContent = totalPrice;
 };
 
 function checkSubmit() {
@@ -64,14 +60,15 @@ function deleteAllWarenkorb() {
 
 
 
+
 // Setup Pizza Klick in Warenkorb
 var list = document.getElementById("pizzaList");
-var items = list.getElementsByTagName("div");
+var items = list.getElementsByTagName("li");
 for (var i = 0; i < items.length; i++) {
     var pizzaValue = items[i].getAttribute("data-pizza");
     items[i].addEventListener("click",
         function () {
-            pizzaImageClickHandler(this.getAttribute('data-id'), this.getAttribute("data-name"), this.getAttribute("data-price"));
+            pizzaImageClickHandler(this.getAttribute("data-pizza"), this.getAttribute("data-price"));
         });
 };
 
