@@ -59,6 +59,7 @@ abstract class Page
     {
         $this->_database = Page::createDb();
         $this->_navigation = new Navigation($this->_database);
+        session_start();
     }
 
     private static function createDb()

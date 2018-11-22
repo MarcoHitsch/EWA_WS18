@@ -1,28 +1,23 @@
-function pizzaImageClickHandler(pizzaName, pizzaPrice) {
+function pizzaImageClickHandler(pizzaID, pizzaName, pizzaPrice) {
     console.log("Handler " + pizzaName);
-    var warenkorb = document.getElementById("warenkorb_select");
-    var newId = warenkorb.getElementsByTagName("option").length;
-    var opt = document.createElement('option');
+        var warenkorb = document.getElementById("warenkorb_select");
+        opt = new Option(pizzaName, pizzaID);
+        opt.setAttribute('data-price', pizzaPrice);
+        warenkorb[warenkorb.length] = opt;
 
-    opt.id = "p" + newId;
-    opt.value = pizzaName;
-    opt.setAttribute("data-price", pizzaPrice);
-    opt.textContent = "Pizza " + pizzaName;
-    warenkorb.appendChild(opt);
-
-    var priceTag = document.getElementById("warenkorb_price");
-    var totalPrice = parseFloat(priceTag.textContent) + parseFloat(pizzaPrice);
-    priceTag.textContent = totalPrice;
+        var priceTag = document.getElementById("warenkorb_price");
+        var totalPrice = parseFloat(priceTag.textContent) + parseFloat(pizzaPrice);
+        priceTag.textContent = totalPrice;
 };
 
 function checkSubmit() {
-    var warenkorb = document.getElementById("orders");
+    var warenkorb = document.getElementById("warenkorb_select");
     if (warenkorb.options.length == 0) {
         alert("Es ist keine Pizza im Warenkorb.")
         return false;
     }
     else {
-        var warenkorb = document.getElementById("orders");
+        var warenkorb = document.getElementById("warenkorb_select");
         var opts = warenkorb.getElementsByTagName("option");
 
         for (var i = opts.length - 1; i >= 0; i--) {
@@ -34,7 +29,7 @@ function checkSubmit() {
 };
 
 function deleteSelectedWarenkorb() {
-    var warenkorb = document.getElementById("orders");
+    var warenkorb = document.getElementById("warenkorb_select");
     var opts = warenkorb.getElementsByTagName("option");
     var priceTag = document.getElementById("warenkorb_price");
     var totalPrice = parseFloat(priceTag.textContent);
@@ -50,13 +45,12 @@ function deleteSelectedWarenkorb() {
 };
 
 function deleteAllWarenkorb() {
-    var warenkorb = document.getElementById("orders");
+    var warenkorb = document.getElementById("warenkorb_select");
     var priceTag = document.getElementById("warenkorb_price");
 
     warenkorb.options.length = 0;
     priceTag.textContent = "0";
 };
-
 
 
 
@@ -68,7 +62,7 @@ for (var i = 0; i < items.length; i++) {
     var pizzaValue = items[i].getAttribute("data-pizza");
     items[i].addEventListener("click",
         function () {
-            pizzaImageClickHandler(this.getAttribute("data-pizza"), this.getAttribute("data-price"));
+            pizzaImageClickHandler(this.getAttribute('data-id'), this.getAttribute("data-name"), this.getAttribute("data-price"));
         });
 };
 

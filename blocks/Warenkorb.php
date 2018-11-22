@@ -87,7 +87,7 @@ class Warenkorb
 
         echo <<<EOF
         <div class="cart">
-        <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl" id="form_order" method="POST" onsubmit="return checkSubmit()">
+        <form action="{$url}" id="form_order" method="POST" onsubmit="return checkSubmit()">
             <section id="warenkorb">
                 <h2>Warenkorb</h2><br>
                 <select class="warenkorb" name="orders[]" multiple="multiple" id="warenkorb_select"></select>

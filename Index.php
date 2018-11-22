@@ -112,7 +112,6 @@ class Bestellung extends Page
         $html = "";
 
         $scripts = array("css" => array(), "js" => array());
-        // array_push($scripts['js'], '/pizza/js/Bestellung.js');
         array_push($scripts['css'], '/pizza/css/bestellung.css');
         array_push($scripts['css'], '/pizza/css/content.css');
 
@@ -129,7 +128,7 @@ class Bestellung extends Page
         echo' </div>';
         $this->generatePageFooter();
         echo $html;
-        echo'<script src="js/Bestellung.js"></script>';
+        echo'<script src="js/bestellung.js"></script>';
     }
     
     /**
@@ -144,25 +143,6 @@ class Bestellung extends Page
     protected function processReceivedData() 
     {
         parent::processReceivedData();
-        echo "Your adresse is " . $_POST['adresse'] . "<br>";
-        echo "Your order is " . $_POST['orders'] . "<br>";
-
-        if (!empty($_POST['order']))
-        {
-            echo'<script>console.log("order set!");</script>';
-        }
-        else{
-            echo'<script>console.log("order  not set!");</script>';
-        }
-
-        if (!empty($_POST['adresse']))
-        {
-            echo'<script>console.log("adresse  set!");</script>';
-        }
-        else{
-            echo'<script>console.log("adresse  not set!");</script>';
-        }
-
         if (isset($_POST['orders'], $_POST['adresse']) &&
         count($_POST['orders']) > 0 &&
         strlen($_POST['adresse']) > 0) {
@@ -172,7 +152,8 @@ class Bestellung extends Page
           $stmt->bind_param('s', $_POST['adresse']);
 
           if ($stmt->execute()) {
-            $_SESSION['lastOrder'] = $orderId = $this->_database->insert_id;
+              $_SESSION['lastOrder'] = $orderId = $this->_database->insert_id;
+              echo'<script>console.log("insert bestellung!");</script>';
             $stmt->close();
 
             $status = 0;
@@ -181,11 +162,17 @@ class Bestellung extends Page
                       (angebot_id, bestellung_id, status)
                       VALUES (?, ?, ?)');
               $stmt->bind_param('iii', $order, $orderId, $status);
-              $stmt->execute();
+             if( $stmt->execute()){
+                 echo'<script>console.log("insert angebot_bestellung!");</script>';
+             }else{
+                echo'<script>console.log("insert angebot_bestellung fehler");</script>';
+
+             }
+
               $stmt->close();
             }
 
-            header('Location: Status.php');
+            header('Location: Kunde.php');
           }
         }
               else{

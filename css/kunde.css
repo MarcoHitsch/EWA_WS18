@@ -68,8 +68,10 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
+
 @media screen and (max-width: 670px) {
     h2 {
         text-align: center;
+        font-size: 1em;
     }
 }

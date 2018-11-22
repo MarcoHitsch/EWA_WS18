@@ -87,9 +87,13 @@ class Speisekarte
        echo' <div id="pizzaList" class="flex-container">';
         foreach ($pizzas as $pizza) {
           echo <<<EOF
-              <div class="flex-item" data-pizza="{$pizza['name']}" data-price="{$pizza['price']}"><img src="{$pizza['image']}" alt="{$pizza['name']}"
-                      height="100" width="100" /><br><label>Pizza {$pizza['name']}</label>
-                  <div>{$pizza['price']} €</div>
+              <div class="flex-item"  
+              data-id="{$pizza['id']}"
+              data-name="{$pizza['name']}"
+              data-price="{$pizza['price']}">
+              <img src="{$pizza['image']}" alt="{$pizza['name']}" height="100" width="100" />
+                      <br><label>Pizza {$pizza['name']}</label>
+                <div>{$pizza['price']} €</div>
               </div>
               
 EOF;

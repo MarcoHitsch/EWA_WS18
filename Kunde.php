@@ -18,6 +18,7 @@
 
 // to do: change name 'PageTemplate' throughout this file
 require_once './Page.php';
+require_once './blocks/Status.php';
 /**
  * This is a template for top level classes, which represent 
  * a complete web page and which are called directly by the user.
@@ -32,6 +33,17 @@ require_once './Page.php';
  */
 class Kunde extends Page
 {
+
+    /**
+     * @var Status
+     */
+    private $status;
+
+    /**
+     * @var array
+     */
+    private $_order;
+
     // to do: declare reference variables for members 
     // representing substructures/blocks
     /**
@@ -44,6 +56,7 @@ class Kunde extends Page
     protected function __construct() 
     {
         parent::__construct();
+        $this->status = new Status($this->_database);
         // to do: instantiate members representing substructures/blocks
     }
     
@@ -67,7 +80,38 @@ class Kunde extends Page
      */
     protected function getViewData()
     {
-        // to do: fetch data for this view from the database
+        if (isset($_SESSION['lastOrder'])) {
+            echo'<script>console.log("lastorder set!");</script>';
+            $lastorder = $_SESSION['lastOrder'];
+            echo $lastorder;
+            $stmt = $this->_database->prepare('SELECT angebot.name,
+                  angebot_bestellung.status, bestellung.id
+                  FROM angebot_bestellung
+                  INNER JOIN angebot ON angebot.id = angebot_bestellung.angebot_id
+                  INNER JOIN bestellung
+                    ON bestellung.id = angebot_bestellung.bestellung_id
+                  WHERE angebot_bestellung.bestellung_id = ?');
+            $stmt->bind_param('i', $lastorder);
+    
+            if ($stmt->execute()) {
+                echo'<script>console.log("could exevcute!");</script>';
+              $stmt->bind_result($name, $status, $orderStatus);
+    
+              while ($stmt->fetch()) {
+                $status = $orderStatus == 1 ? 3 : $status;
+                $this->_order[] = array(
+                  'name'   => $name,
+                  'status' => $status
+                );
+              }
+            }
+            else{
+                echo'<script>console.log("could  NOT exevcute!");</script>';
+            }
+          }
+          else{
+            echo'<script>console.log("lastorder NOT set!");</script>'; 
+          }
     }
     
     /**
@@ -92,10 +136,32 @@ class Kunde extends Page
 
         $html .=$this->generateNavigation();
  
+
+        echo'</head><body>';
+        echo'<div class="content">';
+        echo'<div class="heading">Kunde</div>';
+
+        if (empty($this->_order)) {
+            echo '<p>Keine aktiven Bestellungen!</p>' . PHP_EOL;
+          } else {
+            $columns = array('bestellt', 'im Ofen', 'fertig', 'unterwegs');
+            $this->status->generateView('status', null, $columns,
+                                               $this->_order);
+  
+            echo <<<EOF
+            <ul>
+              <li><a href="Index.php">Neue Bestellung</a></li>
+           </ul>
+EOF;
+          }
+
+
+        echo' </div>';
         // to do: call generateView() for all members
         // to do: output view of this page
         $this->generatePageFooter();
         echo $html;
+        echo'<script src="js/kunde.js"></script>';
 
     }
     

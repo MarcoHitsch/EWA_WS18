@@ -27,7 +27,7 @@
  * @author   Ralf Hahn, <ralf.hahn@h-da.de>
 */
 
-class Statustabelle
+class Status
 {
     // --- ATTRIBUTES ---
 
@@ -84,59 +84,40 @@ class Statustabelle
                                  $editable = false)
     {
         $this->getViewData();
-        if ($id) {
-            $id = "id=\"$id\"";
-        }
-        echo "<div $id>\n";
-        if ($url !== null) {
-          echo '<form action="' . $url . '" method="POST">';
-        }
-        echo <<<EOF
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-EOF;
-        foreach ($columns as $column) {
-          echo "<th>$column</th>";
-        }
-        echo <<<EOF
-            </tr>
-          </thead>
-          <tbody>
-EOF;
-
-        foreach ($data as $i => $row) {
+        foreach ($data as $i => $pizza) {
           echo <<<EOF
-              <tr>
-                <td>{$row['name']}</td>
+          <section id="bestellung">
+          <h2>{$pizza['name']}</h2>
+            <section id="{$i}" class="container">
+            <div class="progress">
+            Bestellt
+            </div>
+            <div class="progress">
+            Im Ofen
+            </div>
+            <div class="progress">
+            Fertig
+            </div>
+            <div class="progress">
+            Unterwegs
+            </div>
+            </section>
+            </section>
+            <script>
+            var list = document.getElementById("{$i}");
+            var items = list.getElementsByTagName("div");
+              for (var i = 0; i < items.length; i++) {
+                if({$pizza['status']} == i){
+                  items[i].className += ' active';
+                }else{
+                  items[i].className = 'progress';
+                }
+              }
+            </script>
 EOF;
-          for ($j = 0; $j < count($columns); ++$j) {
-            $checked = $j == $row['status'] ? ' checked' : '';
-            $disabled = (!$editable ||
-                         $row['status'] == count($columns) - 1)
-              ? ' disabled'
-              : '';
-
-            echo <<<EOF
-                  <td>
-                    <input type="radio" name="order[{$i}]" value="{$j}"
-                           class="submit-form"{$checked}{$disabled}>
-                  </td>
-EOF;
-          }
-
-          echo "</tr>\n";
         }
-        echo <<<EOF
-          </tbody>
-        </table>
-EOF;
-      if ($url !== null) {
-        echo "</form>\n";
-        echo "</div>\n";
-      }
     }
+
 
     /**
      * Processes the data that comes via GET or POST i.e. CGI.
