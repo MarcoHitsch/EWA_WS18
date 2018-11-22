@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/css/bestellung.css">
+    <title>Bestellung</title>
+</head>
+
+<body>
+    <h1>Bestellung</h1>
+    <section id="pizzen">
+        <h2>Sortiment</h2>
+        <ul id="pizzaList">
+            <li class="pizzaList" data-pizza="margherita" data-price="5"><img alt="Margherita" src="Res/Pizza_Margherita.png"
+                    height="80" width="80" /><label>Pizza Margherita</label><label>5,00 €</label></li>
+            <li class="pizzaList" data-pizza="salami" data-price="6"><img alt="Salami" src="Res/Pizza_Salami.png"
+                    height="80" width="80" /><label>Pizza
+                    Salami</label><label>6,00 €</label></li>
+            <li class="pizzaList" data-pizza="prosciutto" data-price="6"><img alt="Prosciutto" src="Res/Pizza_Prosciutto.png"
+                    height="80" width="80" /><label>Pizza Prosciutto</label><label>6,00 €</label></li>
+        </ul>
+    </section>
+    <form action="https://wwwold.fbi.h-da.de/cgi-bin/Echo.pl" id="form_order" onsubmit="return checkSubmit()">
+        <section id="warenkorb">
+            <h2>Warenkorb</h2>
+            <select name="pizzen" multiple="multiple" id="warenkorb_select"></select>
+            <div><span id="warenkorb_price">0</span> <span> €</span></div>
+        </section>
+        <section id="adresse">
+            <h2>Lieferadresse</h2>
+            Adresse<br /><input name="adresse" type="text" id="input_adresse" required>
+        </section>
+        <br />
+        <div id="buttons">
+            <input type="button" value="Alle Löschen" id="button_deleteAll">
+            <input type="button" value="Auswahl Löschen" id="button_deleteSelected">
+            <input type="submit" value="Bestellen" id="button_order">
+        </div>
+    </form>
+</body>
+<script src="js/Bestellung.js"></script>
+</html>
