@@ -1,13 +1,13 @@
-function pizzaImageClickHandler(pizzaValue, pizzaPrice) {
-    console.log("Handler " + pizzaValue);
+function pizzaImageClickHandler(pizzaName, pizzaPrice) {
+    console.log("Handler " + pizzaName);
     var warenkorb = document.getElementById("warenkorb_select");
     var newId = warenkorb.getElementsByTagName("option").length;
     var opt = document.createElement('option');
 
     opt.id = "p" + newId;
-    opt.value = pizzaValue;
+    opt.value = pizzaName;
     opt.setAttribute("data-price", pizzaPrice);
-    opt.textContent = "Pizza " + pizzaValue;
+    opt.textContent = "Pizza " + pizzaName;
     warenkorb.appendChild(opt);
 
     var priceTag = document.getElementById("warenkorb_price");
@@ -16,13 +16,13 @@ function pizzaImageClickHandler(pizzaValue, pizzaPrice) {
 };
 
 function checkSubmit() {
-    var warenkorb = document.getElementById("warenkorb_select");
+    var warenkorb = document.getElementById("orders");
     if (warenkorb.options.length == 0) {
         alert("Es ist keine Pizza im Warenkorb.")
         return false;
     }
     else {
-        var warenkorb = document.getElementById("warenkorb_select");
+        var warenkorb = document.getElementById("orders");
         var opts = warenkorb.getElementsByTagName("option");
 
         for (var i = opts.length - 1; i >= 0; i--) {
@@ -34,7 +34,7 @@ function checkSubmit() {
 };
 
 function deleteSelectedWarenkorb() {
-    var warenkorb = document.getElementById("warenkorb_select");
+    var warenkorb = document.getElementById("orders");
     var opts = warenkorb.getElementsByTagName("option");
     var priceTag = document.getElementById("warenkorb_price");
     var totalPrice = parseFloat(priceTag.textContent);
@@ -50,7 +50,7 @@ function deleteSelectedWarenkorb() {
 };
 
 function deleteAllWarenkorb() {
-    var warenkorb = document.getElementById("warenkorb_select");
+    var warenkorb = document.getElementById("orders");
     var priceTag = document.getElementById("warenkorb_price");
 
     warenkorb.options.length = 0;
@@ -63,7 +63,7 @@ function deleteAllWarenkorb() {
 
 // Setup Pizza Klick in Warenkorb
 var list = document.getElementById("pizzaList");
-var items = list.getElementsByTagName("li");
+var items = list.getElementsByTagName("div");
 for (var i = 0; i < items.length; i++) {
     var pizzaValue = items[i].getAttribute("data-pizza");
     items[i].addEventListener("click",
