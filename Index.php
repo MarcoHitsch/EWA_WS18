@@ -18,10 +18,6 @@
 
 // to do: change name 'Bestellung' throughout this file
 require_once './Page.php';
-require_once './blocks/Navigation.php';
-require_once './blocks/Speisekarte.php';
-require_once './blocks/Warenkorb.php';
-// require_once './blocks/Warenkorb.php';
 
 /**
  * This is a template for top level classes, which represent 
@@ -35,14 +31,11 @@ require_once './blocks/Warenkorb.php';
  * @author   Bernhard Kreling, <b.kreling@fbi.h-da.de> 
  * @author   Ralf Hahn, <ralf.hahn@h-da.de> 
  */
-class Bestellung extends Page
+class Index extends Page
 {
     // to do: declare reference variables for members 
     // representing substructures/blocks
 
-    private $_speisekarte;
-    private $_warenkorb;
-    private $_pizzen;
 
     
     /**
@@ -55,9 +48,12 @@ class Bestellung extends Page
     protected function __construct() 
     {
         parent::__construct();
-        $this->_speisekarte = new Speisekarte($this->_database);
-        $this->_warenkorb   = new Warenkorb($this->_database);
+        // unset($_SESSION['session']);
+        // session_destroy();
 
+        // if (isset($_POST['login'])) {
+        //     $_POST['login']= NULL;
+        // }
         // to do: instantiate members representing substructures/blocks
     }
     
@@ -79,23 +75,9 @@ class Bestellung extends Page
      *
      * @return none
      */
-    protected function getViewData()
-    {
-        $stmt = $this->_database->prepare('SELECT id, name, preis, bild
-                                         FROM angebot');
-      if ($stmt->execute()) {
-        $stmt->bind_result($id, $name, $price, $image);
+    protected function getViewData() { }
 
-        while ($stmt->fetch()) {
-          $this->_pizzen[] = array(
-            'id'    => $id,
-            'name'  => $name,
-            'price' => $price,
-            'image' => $image
-          );
-        }
-      }
-    }
+
     
     /**
      * First the necessary data is fetched and then the HTML is 
@@ -112,23 +94,26 @@ class Bestellung extends Page
         $html = "";
 
         $scripts = array("css" => array(), "js" => array());
-        array_push($scripts['css'], '/pizza/css/bestellung.css');
-        array_push($scripts['css'], '/pizza/css/content.css');
+        array_push($scripts['css'], '/ewa/css/login.css');
+        array_push($scripts['css'], '/ewa/css/content.css');
 
-        $html .= $this->generatePageHeader('Bestellung', $scripts);
+        $html .= $this->generatePageHeader('Login', $scripts);
+echo <<<EOF
+      </head><body>
+       <div class="content">
+        <div class="heading">PIZZA-SERVICE</div>
 
-        $html .=$this->generateNavigation();
-        echo'</head><body>';
-        echo'<div class="content">';
-        echo'<div class="heading">Bestellung</div>';
+        <form action="Index.php" method="post">
+            <div id="buttons" class="buttons">
+                <input type="submit" class="button" name="login" value="Login" />
+            </div>
+        </form>
 
-        $this->_speisekarte->generateView('menu', $this->_pizzen);
-        $this->_warenkorb->generateView('cart', 'Index.php');
-
-        echo' </div>';
-        $this->generatePageFooter();
-        echo $html;
-        echo'<script src="js/bestellung.js"></script>';
+         
+EOF;
+    echo' </div>';
+    $this->generatePageFooter();
+    echo $html;
     }
     
     /**
@@ -143,59 +128,51 @@ class Bestellung extends Page
     protected function processReceivedData() 
     {
         parent::processReceivedData();
-        if (isset($_POST['orders'], $_POST['adresse']) &&
-        count($_POST['orders']) > 0 &&
-        strlen($_POST['adresse']) > 0) {
-            echo'<script>console.log("Data received!");</script>';
-          $stmt = $this->_database->prepare('INSERT INTO bestellung
-                  (adresse, zeitpunkt) VALUES (?, CURRENT_TIMESTAMP)');
-          $stmt->bind_param('s', $_POST['adresse']);
+        if (isset($_POST['login'])) {
 
-          if ($stmt->execute()) {
-              $_SESSION['lastOrder'] = $orderId = $this->_database->insert_id;
-              echo'<script>console.log("insert bestellung!");</script>';
-            $stmt->close();
+            // $stmt = $this->_database->prepare('SELECT session_id FROM session');
+            // if ($stmt->execute()) {
+            //      $stmt->bind_result($session_id);
+            //      if($session_id){
+            //         $_SESSION['session'] = $session_id + 1;
+            //      }
+            // }
 
-            $status = 0;
-            foreach ($_POST['orders'] as $order) {
-              $stmt = $this->_database->prepare('INSERT INTO angebot_bestellung
-                      (angebot_id, bestellung_id, status)
-                      VALUES (?, ?, ?)');
-              $stmt->bind_param('iii', $order, $orderId, $status);
-             if( $stmt->execute()){
-                 echo'<script>console.log("insert angebot_bestellung!");</script>';
-             }else{
-                echo'<script>console.log("insert angebot_bestellung fehler");</script>';
 
-             }
-
-              $stmt->close();
+            if( !isset($_SESSION["session"]) ){
+                $session = 1;
+                $stmt = $this->_database->prepare('INSERT INTO session
+                (session_id) VALUES (?)');
+                $stmt->bind_param('i', $session);
+            }else{
+                $setSession = $_SESSION['session'];
+                $setSession = $setSession + 1;
+                echo $setSession;   
+                $stmt = $this->_database->prepare('INSERT INTO session
+                (session_id) VALUES (?)');
+                $stmt->bind_param('i', $setSession);
             }
-
-            header('Location: Kunde.php');
+          if ($stmt->execute()) {
+              $_SESSION['session'] = $this->_database->insert_id;
+            $stmt->close();
+            header('Location: Bestellung.php');
+          }else{
+            echo <<<EOF
+            <script type="text/javascript" language="Javascript">  
+            alert("Fehler beim login...") 
+            </script>  
+EOF;
           }
+
+
         }
-              else{
-                echo'<script>console.log("somethings wrong");</script>';
-              }
+       
     }
 
-    /**
-     * This main-function has the only purpose to create an instance 
-     * of the class and to get all the things going.
-     * I.e. the operations of the class are called to produce
-     * the output of the HTML-file.
-     * The name "main" is no keyword for php. It is just used to
-     * indicate that function as the central starting point.
-     * To make it simpler this is a static function. That is you can simply
-     * call it without first creating an instance of the class.
-     *
-     * @return none 
-     */    
     public static function main() 
     {
         try {
-            $page = new Bestellung();
+            $page = new Index();
             $page->processReceivedData();
             $page->generateView();
         }
@@ -208,7 +185,7 @@ class Bestellung extends Page
 
 // This call is starting the creation of the page. 
 // That is input is processed and output is created.
-Bestellung::main();
+Index::main();
 
 // Zend standard does not like closing php-tag!
 // PHP doesn't require the closing tag (it is assumed when the file ends). 

@@ -1,6 +1,6 @@
 <?php	// UTF-8 marker äöüÄÖÜß€
 /**
- * Class DetailInfo for the exercises of the EWA lecture
+ * Class BlockTemplate for the exercises of the EWA lecture
  * Demonstrates use of PHP including class and OO.
  * Implements Zend coding standards.
  * Generate documentation with Doxygen or phpdoc
@@ -27,7 +27,7 @@
  * @author   Ralf Hahn, <ralf.hahn@h-da.de>
 */
 
-class DetailInfo
+class Fahrerstatus
 {
     // --- ATTRIBUTES ---
 
@@ -70,54 +70,69 @@ class DetailInfo
     /**
      * Generates an HTML block embraced by a div-tag with the submitted id.
      * If the block contains other blocks, delegate the generation of their
-     * parts of the view to them.
+	 * parts of the view to them.
      *
-     * @param $id $id is the unique (!!) id to be used as id in the div-tag
+     * @param  string  $id The unique (!!) id to be used as id in the div-tag
+     * @param  string  $url
+     * @param  array   $columns
+     * @param  array   $data
+     * @param  boolean $editable
      *
      * @return none
      */
-    public function generateView($id = "", $orderId, $order,
-                                 $printHr = false) {
+    public function generateView(array $columns, $orderId, $order)
+    {
         $this->getViewData();
-
-        if ($id) {
-            $id = "id=\"$id\"";
-        }
-
-        $attributes = array('', '', '');
         $attributes[$order['status']] = ' checked';
         $disabled = $order['status'] == 2 ? ' disabled' : '';
 
-        $price = number_format($order['price'] / 100, 2);
+        $price = $order['price'];
         $address = htmlspecialchars($order['address']);
 
-        echo "<div $id>\n";
+                echo <<<EOF
+
+                <h3>{$address}</h3>
+                <p>{$order['list']}</p>
+                <p>Preis: {$price} €</p>
+
+                <div class="pizzaform">
+                    <div  id="form" class="radio-group">
+                        
+EOF;
+                for ($j = 0; $j < 3; $j++) {
+                    echo <<<EOF
+                    <div class="child">
+                        <label>$columns[$j]
+                            <input type="radio" name="{$orderId}" value="{$j}" class="submit-form"{$disabled}>  
+                        </label>
+                    </div>
+EOF;
+                }
+                echo <<<EOF
+                
+                    </div>
+                </div>
+
+                <script>
+                var list = document.getElementById("form");
+                var items = list.getElementsByTagName("label");
+                for (var i = 0; i < items.length; i++) {
+                    console.log({$order['status']});
+                    if({$order['status']} == i){
+                    items[i].className += ' checked';
+                    }else{
+                    items[i].className = '';
+                    }
+              }
+            </script>
+EOF;
+        
         echo <<<EOF
-        <article class="Bestellung">
-          <h3>{$address}</h3>
-          <p>{$order['list']}</p>
-          <p>Preis: {$price} €</p>
-          <table>
-            <tr>
-              <td>gebacken</td>
-              <td>unterwegs</td>
-              <td>ausgeliefert</td>
-            </tr>
-            <tr>
-              <td><input type="radio" name="{$orderId}" class="submit-form"{$attributes[0]}{$disabled} value="0"></td>
-              <td><input type="radio" name="{$orderId}" class="submit-form"{$attributes[1]}{$disabled} value="1"></td>
-              <td><input type="radio" name="{$orderId}" class="submit-form"{$attributes[2]}{$disabled} value="2"></td>
-            </tr>
-          </table>
-        </article>
+    
+        
 EOF;
 
-        if ($printHr) {
-          echo '<hr>';
-        }
-
-        // to do: call generateView() for all members
-        echo "</div>\n";
+        
     }
 
     /**

@@ -22,35 +22,14 @@ body {
     border-bottom: 1px solid white;
     margin-bottom: 1em;
 }
-.order{
-    margin-bottom: 3em;
-}
-
-.customername {
-    font-size: 1.3em;
-    margin-right: 0.5em;
-    display: inline;
-}
-
-.price {
-    font-size: 1em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-}
-
-.customeradress {
-    font-size: 1.3em;
-    display: inline;
-    margin-left: 0.5em;
-}
 
 input[type=radio] {
     position: absolute;
-    visibility: hidden;
+    visibility: hidden; 
     display: none;
 }
 
-.kundeform {
+.pizzaform {
     margin: 2em;
 }
 
@@ -63,6 +42,10 @@ label {
     cursor: pointer;
     padding: 0.5em 1em 0.5em 1em;
     flex: 1;
+}
+.checked{
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.3);
 }
 
 input[type=radio]:checked+label {
@@ -81,20 +64,28 @@ input[type=radio]:checked+label {
     align-items: stretch;
 }
 
-.button {
-    margin: 1em 0 2em 0;
-    vertical-align: middle;
-    display: inline;
-    width: 100%;
-    background-color: transparent;
-    border: solid 2px white;
-    color: white;
-    padding: 0.5em 1em 0.5em 1em;
-    text-align: center;
-    display: inline-block;
-    font-size: 1em;
+.buttondiv {
+    margin: 2em;
+}
+
+.active {
+    background: rgba(23, 179, 23, 0.589);
+}
+
+
+.child {
+    flex: 1;
     border-radius: 5px;
     cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    background-color: transparent;
+    color: white;
+    font-size: 1em;
+    border-style: hidden;
 }
 
 .button:hover {

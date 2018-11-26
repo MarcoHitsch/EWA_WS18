@@ -27,7 +27,7 @@
  * @author   Ralf Hahn, <ralf.hahn@h-da.de>
 */
 
-class Status
+class Baeckerstatus
 {
     // --- ATTRIBUTES ---
 
@@ -80,47 +80,59 @@ class Status
      *
      * @return none
      */
-    public function generateView(array $data)
+    public function generateView(array $columns, array $data, $editable =false)
     {
         $this->getViewData();
 
-        foreach ($data as $i => $pizza) {
-          echo <<<EOF
-            <section id="bestellung">
-            <h2>{$pizza['name']}</h2>
+            foreach ($data as $i => $pizza) {
+                echo <<<EOF
 
-              <section id="{$i}" class="container">
-                <div class="progress">
-                    Bestellt
-                </div>
-                <div class="progress">
-                    Im Ofen
-                </div>
-                <div class="progress">
-                    Fertig
-                </div>
-                <div class="progress">
-                  Unterwegs
-                </div>
-              </section>
-            </section>
-
-            <script>
-            var list = document.getElementById("{$i}");
-            var items = list.getElementsByTagName("div");
-              for (var i = 0; i < items.length; i++) {
-                console.log({$pizza['status']});
-                if({$pizza['status']} == i){
-                  items[i].className += ' active';
-                }else{
-                  items[i].className = 'progress';
+                <div class="pizzaform">
+                    <div  id="{$i}" class="radio-group">
+                        <div class="child">
+                            {$pizza['name']}
+                        </div>
+EOF;
+                for ($j = 0; $j < 3; $j++) {
+                    
+                  $checked = $j == $pizza['status'] ? 'checked' : '';
+                  $disabled = (!$editable || $pizza['status'] == 2) ? ' disabled' : '';
+                    echo <<<EOF
+                    
+                    <div class="child">
+                        <label>$columns[$j]
+                            <input type="radio" name="order[{$i}]" value="{$j}" class="submit-form"{$checked}{$disabled}>  
+                        </label>
+                    </div>
+                    
+EOF;
                 }
+                echo <<<EOF
+                
+                </div>
+                </div>
+                <script>
+                var list = document.getElementById("{$i}");
+                var items = list.getElementsByTagName("label");
+                for (var i = 0; i < items.length; i++) {
+                    console.log({$pizza['status']});
+                    if({$pizza['status']} == i){
+                    items[i].className += ' checked';
+                    }else{
+                    items[i].className = '';
+                    }
               }
             </script>
 EOF;
-        }
-    }
+              }
+        
+        echo <<<EOF
+    
+        
+EOF;
 
+        
+    }
 
     /**
      * Processes the data that comes via GET or POST i.e. CGI.

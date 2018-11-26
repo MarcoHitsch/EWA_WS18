@@ -80,37 +80,37 @@ class Kunde extends Page
      */
     protected function getViewData()
     {
-        if (isset($_SESSION['lastOrder'])) {
-            echo'<script>console.log("lastorder set!");</script>';
-            $lastorder = $_SESSION['lastOrder'];
-            echo $lastorder;
-            $stmt = $this->_database->prepare('SELECT angebot.name,
-                  angebot_bestellung.status, bestellung.id
-                  FROM angebot_bestellung
-                  INNER JOIN angebot ON angebot.id = angebot_bestellung.angebot_id
-                  INNER JOIN bestellung
+        if (isset($_SESSION['session'])) {
+            $session = $_SESSION['session'];
+            $stmt = $this->_database->prepare('SELECT
+            angebot.name, angebot.id, angebot_bestellung.id,
+            angebot_bestellung.status, angebot_bestellung.bestellung_id, bestellung.status
+            FROM angebot_bestellung
+            INNER JOIN angebot ON angebot.id = angebot_bestellung.angebot_id
+                    INNER JOIN bestellung
                     ON bestellung.id = angebot_bestellung.bestellung_id
-                  WHERE angebot_bestellung.bestellung_id = ?');
-            $stmt->bind_param('i', $lastorder);
+            WHERE bestellung.session_id =  ? AND (bestellung.status <=1 || bestellung.status IS NULL)');
+                $stmt->bind_param('i', $session);
     
-            if ($stmt->execute()) {
-                echo'<script>console.log("could exevcute!");</script>';
-              $stmt->bind_result($name, $status, $orderStatus);
+          if ($stmt->execute()) {
+            $stmt->bind_result($name, $supplyId, $id, $pizzastatus, $orderId ,$orderstatus);
+            $this->_orders = array();
     
-              while ($stmt->fetch()) {
-                $status = $orderStatus == 1 ? 3 : $status;
-                $this->_order[] = array(
-                  'name'   => $name,
-                  'status' => $status
-                );
+            while ($stmt->fetch()) {
+              if (!isset($this->_orders[$orderId])) {
+                $this->_orders[$orderId] = array();
               }
-            }
-            else{
-                echo'<script>console.log("could  NOT exevcute!");</script>';
+              $pizzastatus = $orderstatus == 1 ? 3 : $pizzastatus;
+              $this->_orders[$orderId][$id] = array(
+                'id'     => $supplyId,
+                'name'   => $name,
+                'status' => $pizzastatus
+              );
             }
           }
+        }
           else{
-            echo'<script>console.log("lastorder NOT set!");</script>'; 
+            echo'<script>console.log("session NOT set!");</script>'; 
           }
     }
     
@@ -129,11 +129,10 @@ class Kunde extends Page
         $html = "";
 
         $scripts = array("css" => array(), "js" => array());
-        array_push($scripts['css'], '/pizza/css/kunde.css');
-        array_push($scripts['css'], '/pizza/css/content.css');
+        array_push($scripts['css'], '/ewa/css/kunde.css');
+        array_push($scripts['css'], '/ewa/css/content.css');
 
         $html .= $this->generatePageHeader('Kunde', $scripts);
-
         $html .=$this->generateNavigation();
  
 
@@ -141,22 +140,22 @@ class Kunde extends Page
         echo'<div class="content">';
         echo'<div class="heading">Kunde</div>';
 
-        if (empty($this->_order)) {
+        if (empty($this->_orders)) {
             echo '<p>Keine aktiven Bestellungen!</p>' . PHP_EOL;
           } else {
-            $columns = array('bestellt', 'im Ofen', 'fertig', 'unterwegs');
-            $this->status->generateView('status', null, $columns,
-                                               $this->_order);
-  
-            echo <<<EOF
-            <ul>
-              <li><a href="Index.php">Neue Bestellung</a></li>
-           </ul>
-EOF;
+            foreach ($this->_orders as $i => $order) {
+
+            $this->status->generateView($order);
+            echo '<hr>' . PHP_EOL;
+              }
           }
+          echo <<<EOF
+          <div class="button">
+           <a href="Bestellung.php">Neue Bestellung</a>
+         </div>
+        </div>
+EOF;
 
-
-        echo' </div>';
         // to do: call generateView() for all members
         // to do: output view of this page
         $this->generatePageFooter();

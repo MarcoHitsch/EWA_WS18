@@ -3,14 +3,8 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    /* background: linear-gradient(to bottom, #00070f, #00070f, #002750); */
     color: whitesmoke;
-}
-
-.content {
-    padding: 2em;
-    max-width: 700px;
-    background-color: rgba(255, 255, 255, 0.3);
-    margin: auto;
 }
 
 .heading {
@@ -23,35 +17,17 @@ body {
     margin-bottom: 1em;
 }
 
-.container {
-    padding: 2em !important;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    margin-bottom: 1em
+.content {
+    padding: 2em;
+    max-width: 700px;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: auto;
 }
 
-.progress {
-    padding: 0.7em 0 0.7em 0;
-    margin: 0 1em 0 1em;
-    color: white;
-    border: solid 2px white;
-    flex-shrink: 1;
-    flex-basis: auto;
-    flex-shrink: 1;
-    flex-basis: auto;
-    text-align: center;
-    display: inline-block;
-    flex: 1;
-    border-radius: 5px;
-}
 
-.active {
-    background: rgba(23, 179, 23, 0.589);
-}
 
 .button {
-    width: 100%;
+    width: 12em;
     background-color: transparent;
     border: solid 2px white;
     color: white;
@@ -67,15 +43,16 @@ body {
 .button:hover {
     background: rgba(255, 255, 255, 0.2);
 }
-a{
-    color:white;
-    text-decoration: none;
-}
 
+.buttons {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
 
 @media screen and (max-width: 670px) {
     h2 {
         text-align: center;
-        font-size: 1em;
     }
 }

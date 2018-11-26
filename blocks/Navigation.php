@@ -67,6 +67,15 @@ class Navigation
         // to do: fetch data for this view from the database
     }
 
+    function logout()
+    {
+        session_start();
+            header_remove();
+            unset($_SESSION['session']);
+            session_destroy();
+            header("Location: /Index.php");
+    }
+
     /**
      * Generates an HTML block embraced by a div-tag with the submitted id.
      * If the block contains other blocks, delegate the generation of their
@@ -81,43 +90,42 @@ class Navigation
         echo <<<EOF
         <link rel="stylesheet" href="css//nav.css">
         <link rel="stylesheet" href="css//page.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-
-  <nav class="navbar">
-    <span class="navbar-toggle" id="js-navbar-toggle">
-      <!-- <i class="fal fa-bars"></i> -->
-      <i class="large material-icons">menu</i>
-    </span>
-    <a class="logo">PIIIZZAA</a>
-    <ul class="main-nav" id='js-menu'>
-      <li>
-        <a href="Index.php" class="nav-links">Bestellung</a>
-      </li>
-      <li>
+        
+        <nav class="navbar">
+        <span class="navbar-toggle" id="js-navbar-toggle">
+        <!-- <i class="fal fa-bars"></i> -->
+        <i class="large material-icons">menu</i>
+        </span>
+        <a class="logo">PIIIZZAA</a>
+        <ul class="main-nav" id='js-menu'>
+        
+        <li>
+        <a href="Bestellung.php" class="nav-links">Bestellung</a>
+        </li>
+        <li>
         <a href="Baecker.php" class="nav-links">Bäcker</a>
-      </li>
-      <li>
+        </li>
+        <li>
         <a href="Fahrer.php" class="nav-links">Fahrer</a>
-      </li>
-      <li>
+        </li>
+        <li>
         <a href="Kunde.php" class="nav-links">Kunde</a>
-      </li>
-
-    </ul>
-  </nav>
-
-
-
-<script>
-  let mainNav = document.getElementById("js-menu");
-  let navBarToggle = document.getElementById("js-navbar-toggle");
-
-  navBarToggle.addEventListener("click", function () {
-    mainNav.classList.toggle("active");
-  });
-</script>
+        </li>
+        <li id="logout">
+        <a class="nav-links">Logout</a>
+        </li>
+        
+        </ul>
+        </nav>
+        
+        <script>
+        document.getElementById("logout").onclick = function() {myFunction()};
+        function myFunction() {
+          var phpadd= <?php logout();?>
+        </script>
 
 EOF;
     }
