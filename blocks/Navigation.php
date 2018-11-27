@@ -88,8 +88,8 @@ class Navigation
     public function generateView()
     {
         echo <<<EOF
-        <link rel="stylesheet" href="css//nav.css">
-        <link rel="stylesheet" href="css//page.css">
+        <link rel="stylesheet" href="css//nav.1.css">
+    
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -114,18 +114,20 @@ class Navigation
         <li>
         <a href="Kunde.php" class="nav-links">Kunde</a>
         </li>
-        <li id="logout">
-        <a class="nav-links">Logout</a>
-        </li>
+     
         
         </ul>
         </nav>
-        
+
         <script>
-        document.getElementById("logout").onclick = function() {myFunction()};
-        function myFunction() {
-          var phpadd= <?php logout();?>
-        </script>
+            let mainNav = document.getElementById("js-menu");
+            let navBarToggle = document.getElementById("js-navbar-toggle");
+
+            navBarToggle.addEventListener("click", function () {
+            mainNav.classList.toggle("activenav");
+            });
+</script>
+
 
 EOF;
     }

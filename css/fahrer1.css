@@ -23,59 +23,73 @@ body {
     margin-bottom: 1em;
 }
 
-.container {
-    padding: 2em !important;
+input[type=radio] {
+    position: absolute;
+    visibility: hidden; 
+    display: none;
+}
+
+.pizzaform {
+    margin: 2em;
+}
+
+label {
+    flex-shrink: 1;
+    flex-basis: auto;
+    text-align: center;
+    color: white;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0.5em 1em 0.5em 1em;
+    flex: 1;
+}
+.checked{
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+input[type=radio]:checked+label {
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.radio-group {
+    border: solid 2px white;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 5px;
+    overflow: hidden;
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    margin-bottom: 1em
 }
 
-.progress {
-    padding: 0.7em 0 0.7em 0;
-    margin: 0 1em 0 1em;
-    color: white;
-    border: solid 2px white;
-    flex-shrink: 1;
-    flex-basis: auto;
-    flex-shrink: 1;
-    flex-basis: auto;
-    text-align: center;
-    display: inline-block;
+.buttondiv {
+    margin: 2em;
+}
+
+
+.child {
     flex: 1;
     border-radius: 5px;
-}
-
-.active {
-    background: rgba(23, 179, 23, 0.589);
-}
-
-.button {
-    width: 100%;
-    background-color: transparent;
-    border: solid 2px white;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    display: inline-block;
-    font-size: 1em;
-    margin: 10em;
     cursor: pointer;
-    border-radius: 5px;
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    background-color: transparent;
+    color: white;
+    font-size: 1em;
+    border-style: hidden;
 }
 
 .button:hover {
     background: rgba(255, 255, 255, 0.2);
 }
-a{
-    color:white;
-    text-decoration: none;
-}
-
 
 @media screen and (max-width: 670px) {
     h2 {
         text-align: center;
-        font-size: 1em;
     }
 }

@@ -113,7 +113,7 @@ class Baecker extends Page
         $html = "";
 
         $scripts = array("css" => array(), "js" => array());
-        array_push($scripts['css'], '/ewa/css/baecker.css');
+        array_push($scripts['css'], '/ewa/css/baecker.1.css');
         array_push($scripts['css'], '/ewa/css/content.css');
         $html .= $this->generatePageHeader('Bäcker', $scripts);
         $html .=$this->generateNavigation();

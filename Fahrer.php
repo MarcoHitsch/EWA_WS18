@@ -125,7 +125,7 @@ class Fahrer extends Page
         $html = "";
 
         $scripts = array("css" => array(), "js" => array());
-        array_push($scripts['css'], '/ewa/css/fahrer.css');
+        array_push($scripts['css'], '/ewa/css/fahrer1.css');
         array_push($scripts['css'], '/ewa/css/content.css');
 
         $html .= $this->generatePageHeader('Fahrer', $scripts);

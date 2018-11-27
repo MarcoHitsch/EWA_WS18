@@ -129,7 +129,7 @@ class Kunde extends Page
         $html = "";
 
         $scripts = array("css" => array(), "js" => array());
-        array_push($scripts['css'], '/ewa/css/kunde.css');
+        array_push($scripts['css'], '/ewa/css/kunde.1.css');
         array_push($scripts['css'], '/ewa/css/content.css');
 
         $html .= $this->generatePageHeader('Kunde', $scripts);

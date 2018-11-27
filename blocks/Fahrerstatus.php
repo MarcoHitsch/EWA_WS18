@@ -100,9 +100,11 @@ class Fahrerstatus
                         
 EOF;
                 for ($j = 0; $j < 3; $j++) {
+
+                    $class = $order['status'] == $j ? ' checked' : '';
                     echo <<<EOF
                     <div class="child">
-                        <label>$columns[$j]
+                        <label class="{$class}">$columns[$j]
                             <input type="radio" name="{$orderId}" value="{$j}" class="submit-form"{$disabled}>  
                         </label>
                     </div>
@@ -113,18 +115,6 @@ EOF;
                     </div>
                 </div>
 
-                <script>
-                var list = document.getElementById("form");
-                var items = list.getElementsByTagName("label");
-                for (var i = 0; i < items.length; i++) {
-                    console.log({$order['status']});
-                    if({$order['status']} == i){
-                    items[i].className += ' checked';
-                    }else{
-                    items[i].className = '';
-                    }
-              }
-            </script>
 EOF;
         
         echo <<<EOF
