@@ -136,7 +136,7 @@ class Kunde extends Page
         $html .=$this->generateNavigation();
  
 
-        echo'</head><body>';
+        echo'</head><body onload=”javascript:setTimeout(“location.reload(true);”,5000);”>';
         echo'<div class="content">';
         echo'<div class="heading">Kunde</div>';
 

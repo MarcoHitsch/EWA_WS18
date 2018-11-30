@@ -1,3 +1,5 @@
+'use strict';
+
 function pizzaImageClickHandler(pizzaID, pizzaName, pizzaPrice) {
     console.log("Handler " + pizzaName);
         var warenkorb = document.getElementById("warenkorb_select");

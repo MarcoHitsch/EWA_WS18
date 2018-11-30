@@ -64,11 +64,12 @@ abstract class Page
 
     private static function createDb()
     {
-        $hostname = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "pizzaservice";
-        $mysqli = new mysqli($hostname, $username, $password, $database);
+        $mysqli = mysqli_connect("localhost", "root", "", "pizzaservice") or die($link);
+        // $hostname = "localhost";
+        // $username = "root";
+        // $password = "";
+        // $database = "pizzaservice";
+        // $mysqli = new mysqli($hostname, $username, $password, $database);
         $mysqli->set_charset("utf8");
         if ($mysqli->connect_errno) {
             throw new Exception("error while connecting to database - ErrorCode: " . $mysqli->connect_errno);
@@ -116,10 +117,13 @@ abstract class Page
                 }
             }
         }
+
+        $url=$_SERVER['REQUEST_URI'];
+        header("Refresh: 5; URL=$url");
         return <<<EOT
         <!DOCTYPE html>
         <html><head>
-        <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0" />
+        <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0"  http-equiv="refresh" content="10"/>
         <title>$headline</title>$s
       
 EOT;

@@ -89,9 +89,12 @@ class Fahrerstatus
         $price = $order['price'];
         $address = htmlspecialchars($order['address']);
 
+       echo ' <h3>';
+            echo htmlspecialchars($address);
+       echo'</h3>';
+
                 echo <<<EOF
 
-                <h3>{$address}</h3>
                 <p>{$order['list']}</p>
                 <p>Preis: {$price} €</p>
 

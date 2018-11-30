@@ -1,6 +1,6 @@
 <?php	// UTF-8 marker äöüÄÖÜß€
 /**
- * Class Fahrer for the exercises of the EWA lecture
+ * Class Bestellung for the exercises of the EWA lecture
  * Demonstrates use of PHP including class and OO.
  * Implements Zend coding standards.
  * Generate documentation with Doxygen or phpdoc
@@ -16,9 +16,12 @@
  * @link     http://www.fbi.h-da.de 
  */
 
-// to do: change name 'PageTemplate' throughout this file
+// to do: change name 'Bestellung' throughout this file
 require_once './Page.php';
-require_once './blocks/Fahrerstatus.php';
+require_once './blocks/Navigation.php';
+require_once './blocks/Speisekarte.php';
+require_once './blocks/Warenkorb.php';
+
 /**
  * This is a template for top level classes, which represent 
  * a complete web page and which are called directly by the user.
@@ -31,13 +34,16 @@ require_once './blocks/Fahrerstatus.php';
  * @author   Bernhard Kreling, <b.kreling@fbi.h-da.de> 
  * @author   Ralf Hahn, <ralf.hahn@h-da.de> 
  */
-class Fahrer extends Page
+class Bestellung extends Page
 {
-
-    private $fahrerstatus;
-    private $orders = array();
     // to do: declare reference variables for members 
     // representing substructures/blocks
+
+    private $_speisekarte;
+    private $_warenkorb;
+    private $_pizzen;
+    private $session;
+
     
     /**
      * Instantiates members (to be defined above).   
@@ -49,7 +55,9 @@ class Fahrer extends Page
     protected function __construct() 
     {
         parent::__construct();
-        $this->fahrerstatus = new Fahrerstatus($this->_database);
+        $this->_speisekarte = new Speisekarte($this->_database);
+        $this->_warenkorb   = new Warenkorb($this->_database);
+
         // to do: instantiate members representing substructures/blocks
     }
     
@@ -73,39 +81,18 @@ class Fahrer extends Page
      */
     protected function getViewData()
     {
-        $stmt = $this->_database->prepare('SELECT angebot.name, angebot.preis,
-        bestellung.id, bestellung.adresse, bestellung.status
-        FROM angebot_bestellung
-        INNER JOIN angebot ON angebot.id = angebot_bestellung.angebot_id
-        INNER JOIN bestellung
-          ON bestellung.id = angebot_bestellung.bestellung_id
-        WHERE bestellung.status <= 1
-        ORDER BY bestellung.id');
-
+        $stmt = $this->_database->prepare('SELECT id, name, preis, bild
+                                         FROM angebot');
       if ($stmt->execute()) {
-        $stmt->bind_result($name, $price, $id, $address, $status);
-        $this->_orders = array();
+        $stmt->bind_result($id, $name, $price, $image);
 
-        // This values will be resetted on every new order
-        $currentOrder = 0;
         while ($stmt->fetch()) {
-          if ($id != $currentOrder) {
-            $this->_orders[$id] = array(
-              'list'   => '',
-              'price'  => 0,
-              'address' => $address,
-              'status' => $status
-            );
-            $currentOrder = $id;
-          }
-
-          // Add a comma
-          if (strlen($this->_orders[$id]['list']) > 0) {
-            $this->_orders[$id]['list'] .= ', ';
-          }
-
-          $this->_orders[$id]['list']  .= $name;
-          $this->_orders[$id]['price'] += $price;
+          $this->_pizzen[] = array(
+            'id'    => $id,
+            'name'  => $name,
+            'price' => $price,
+            'image' => $image
+          );
         }
       }
     }
@@ -125,39 +112,23 @@ class Fahrer extends Page
         $html = "";
 
         $scripts = array("css" => array(), "js" => array());
-        array_push($scripts['css'], '/ewa/css/fahrer1.css');
+        array_push($scripts['css'], '/ewa/css/bestellung.css');
         array_push($scripts['css'], '/ewa/css/content.css');
 
-        $html .= $this->generatePageHeader('Fahrer', $scripts);
+        $html .= $this->generatePageHeader('Bestellung', $scripts);
+
         $html .=$this->generateNavigation();
-        $columns = array('Gebacken', 'Unterwegs', 'Ausgeliefert');
-        echo'</head><body onload=”javascript:setTimeout(“location.reload(true);”,10000);”>';
+        echo'</head><body>';
         echo'<div class="content">';
-        echo'<div class="heading">Fahrer</div>';
+        echo'<div class="heading">Bestellung</div>';
 
+        $this->_speisekarte->generateView('menu', $this->_pizzen);
+        $this->_warenkorb->generateView('cart', 'Bestellung.php');
 
-        if (empty($this->_orders)) {
-            echo '<p>Keine aktiven Bestellungen zum fahren!</p>' . PHP_EOL;
-          } else {
-        echo <<<EOF
-        <form class="order" action="Fahrer.php" method="POST">
-EOF;
-        foreach ($this->_orders as $key => $order) {
-            $this->fahrerstatus->generateView($columns, $key, $order);
-        }
-        echo '</form>' . PHP_EOL;
-    }
         echo' </div>';
-        echo'<script src="js/fahrer.js"></script>';
-            // to do: call generateView() for all members
-            // to do: output view of this page
-            $this->generatePageFooter();
-            echo $html;
- 
-        // to do: call generateView() for all members
-        // to do: output view of this page
         $this->generatePageFooter();
         echo $html;
+        echo'<script src="js/bestellung.js"></script>';
     }
     
     /**
@@ -171,18 +142,50 @@ EOF;
      */
     protected function processReceivedData() 
     {
+
+      // htmlspecialCharacter gegen XXS, real escape string gegen sqlI
         parent::processReceivedData();
-      
-        if (isset($_POST)) {
-            $stmt = $this->_database->prepare('UPDATE bestellung
-              SET status = ?
-              WHERE id = ?');
-  
-            foreach ($_POST as $id => $status) {
-              $stmt->bind_param('ii', $status, $id);
-              $stmt->execute();
+        if (isset($_POST['orders'], $_POST['adresse']) &&
+        count($_POST['orders']) > 0 &&
+        strlen($_POST['adresse']) > 0) {
+
+                // INSERT BESTELLUNG
+          $stmt = $this->_database->prepare('INSERT INTO bestellung
+                  (adresse,  session_id, zeitpunkt) VALUES (?, ?,CURRENT_TIMESTAMP)');
+            $session = $_SESSION['session'];
+            $adresse=mysql_real_escape_string($mysqli, $_POST['adresse']);
+          $stmt->bind_param('si', $adresse, $session);
+
+          if ($stmt->execute()) {
+            echo'<script>console.log("could insert bestellung");</script>';
+              $orderId = $this->_database->insert_id;
+            $stmt->close();
+
+            $status = 0;
+            foreach ($_POST['orders'] as $order) {
+              $stmt = $this->_database->prepare('INSERT INTO angebot_bestellung
+                      (angebot_id, bestellung_id, status)
+                      VALUES (?, ?, ?)');
+              $stmt->bind_param('iii', $order, $orderId, $status);
+             if( $stmt->execute()){
+                 echo'<script>console.log("insert angebot_bestellung!");</script>';
+             }else{
+                echo'<script>console.log("insert angebot_bestellung fehler");</script>';
+
+             }
+
+              $stmt->close();
             }
+
+            header('Location: Kunde.php');
+          }else{
+            echo'<script>console.log("could NOT insdert bestellung");</script>';
+
           }
+        }
+              else{
+                echo'<script>console.log("somethings wrong");</script>';
+              }
     }
 
     /**
@@ -200,7 +203,7 @@ EOF;
     public static function main() 
     {
         try {
-            $page = new Fahrer();
+            $page = new Bestellung();
             $page->processReceivedData();
             $page->generateView();
         }
@@ -213,7 +216,7 @@ EOF;
 
 // This call is starting the creation of the page. 
 // That is input is processed and output is created.
-Fahrer::main();
+Bestellung::main();
 
 // Zend standard does not like closing php-tag!
 // PHP doesn't require the closing tag (it is assumed when the file ends). 

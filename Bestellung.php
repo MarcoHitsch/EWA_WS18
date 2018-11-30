@@ -142,21 +142,23 @@ class Bestellung extends Page
      */
     protected function processReceivedData() 
     {
+
+      // htmlspecialCharacter gegen XXS, real escape string gegen sqlI
         parent::processReceivedData();
         if (isset($_POST['orders'], $_POST['adresse']) &&
         count($_POST['orders']) > 0 &&
         strlen($_POST['adresse']) > 0) {
 
-                // INSERT BESTELLUNG
-          $stmt = $this->_database->prepare('INSERT INTO bestellung
-                  (adresse,  session_id, zeitpunkt) VALUES (?, ?,CURRENT_TIMESTAMP)');
-            $session = $_SESSION['session'];
-          $stmt->bind_param('si', $_POST['adresse'], $session);
+          $adressePost=mysqli_real_escape_string($this->_database, $_POST['adresse']);
+          $session = $_SESSION['session'];
+          $sql="INSERT INTO bestellung (adresse, session_id, zeitpunkt) VALUES ('$adressePost', '$session', 'CURRENT_TIMESTAMP')";
 
-          if ($stmt->execute()) {
+          if (!mysqli_query($this->_database,$sql)) {
+            echo'<script>console.log("could NOT insert bestellung");</script>';
+            die('Error: ' . mysqli_error($this->_database));
+          }else{
             echo'<script>console.log("could insert bestellung");</script>';
               $orderId = $this->_database->insert_id;
-            $stmt->close();
 
             $status = 0;
             foreach ($_POST['orders'] as $order) {
@@ -175,12 +177,9 @@ class Bestellung extends Page
             }
 
             header('Location: Kunde.php');
-          }else{
-            echo'<script>console.log("could NOT insdert bestellung");</script>';
-
           }
         }
-              else{
+            else{
                 echo'<script>console.log("somethings wrong");</script>';
               }
     }

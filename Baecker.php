@@ -113,13 +113,13 @@ class Baecker extends Page
         $html = "";
 
         $scripts = array("css" => array(), "js" => array());
-        array_push($scripts['css'], '/ewa/css/baecker.1.css');
+        array_push($scripts['css'], '/ewa/css/baecker.2.css');
         array_push($scripts['css'], '/ewa/css/content.css');
         $html .= $this->generatePageHeader('Bäcker', $scripts);
         $html .=$this->generateNavigation();
         $columns = array('Bestellt', 'Im Ofen', 'Fertig');
 
-        echo'</head><body>';
+        echo'</head><body onload=”javascript:setTimeout(“location.reload(true);”,10000);”>';
         echo'<div class="content">';
         echo'<div class="heading">Bäcker</div>';
 
