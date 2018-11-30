@@ -3,7 +3,7 @@
 function pizzaImageClickHandler(pizzaID, pizzaName, pizzaPrice) {
     console.log("Handler " + pizzaName);
         var warenkorb = document.getElementById("warenkorb_select");
-        opt = new Option(pizzaName, pizzaID);
+        var opt = new Option(pizzaName, pizzaID);
         opt.setAttribute('data-price', pizzaPrice);
         warenkorb[warenkorb.length] = opt;
 
