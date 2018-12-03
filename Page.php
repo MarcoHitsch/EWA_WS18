@@ -118,13 +118,11 @@ abstract class Page
             }
         }
 
-        $url=$_SERVER['REQUEST_URI'];
-        header("Refresh: 10; URL=$url");
+      
         return <<<EOT
         <!DOCTYPE html>
         <html><head>
-        <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0"  http-equiv="refresh" />
-        <title>$headline</title>$s
+        $s
       
 EOT;
 }

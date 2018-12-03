@@ -134,11 +134,15 @@ class Kunde extends Page
 
         $html .= $this->generatePageHeader('Kunde', $scripts);
         $html .=$this->generateNavigation();
- 
-
-        echo'</head><body onload=”javascript:setTimeout(“location.reload(true);”,5000);”>';
-        echo'<div class="content">';
-        echo'<div class="heading">Kunde</div>';
+        $url=$_SERVER['REQUEST_URI'];
+        header("Refresh: 5; URL=$url");
+        echo <<<EOF
+        <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0" http-equiv="refresh" />    
+        <title>Login</title>
+        </head><body>
+        <div class="content">
+        <div class="heading">Kunde</div>
+EOF;
 
         if (empty($this->_orders)) {
             echo '<p>Keine aktiven Bestellungen!</p>' . PHP_EOL;

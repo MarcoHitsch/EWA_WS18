@@ -118,10 +118,15 @@ class Baecker extends Page
         $html .= $this->generatePageHeader('Bäcker', $scripts);
         $html .=$this->generateNavigation();
         $columns = array('Bestellt', 'Im Ofen', 'Fertig');
-
-        echo'</head><body onload=”javascript:setTimeout(“location.reload(true);”,10000);”>';
-        echo'<div class="content">';
-        echo'<div class="heading">Bäcker</div>';
+        $url=$_SERVER['REQUEST_URI'];
+        header("Refresh: 5; URL=$url");
+        echo <<<EOF
+        <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0" http-equiv="refresh" />    
+        <title>Bäcker</title>
+        </head><body>
+        <div class="content">
+        <div class="heading">Bäcker</div>
+EOF;
 
         if (empty($this->_orders)) {
             echo '<p>Keine aktiven Pizzen zum backen!</p>' . PHP_EOL;

@@ -131,10 +131,15 @@ class Fahrer extends Page
         $html .= $this->generatePageHeader('Fahrer', $scripts);
         $html .=$this->generateNavigation();
         $columns = array('Gebacken', 'Unterwegs', 'Ausgeliefert');
-        echo'</head><body onload=”javascript:setTimeout(“location.reload(true);”,10000);”>';
-        echo'<div class="content">';
-        echo'<div class="heading">Fahrer</div>';
-
+        $url=$_SERVER['REQUEST_URI'];
+        header("Refresh: 5; URL=$url");
+        echo <<<EOF
+        <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0" http-equiv="refresh" />  
+        <title>Fahrer</title>  
+        </head><body>
+        <div class="content">
+        <div class="heading">Fahrer</div>
+EOF;
 
         if (empty($this->_orders)) {
             echo '<p>Keine aktiven Bestellungen zum fahren!</p>' . PHP_EOL;

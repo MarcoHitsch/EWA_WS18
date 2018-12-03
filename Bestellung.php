@@ -118,9 +118,14 @@ class Bestellung extends Page
         $html .= $this->generatePageHeader('Bestellung', $scripts);
 
         $html .=$this->generateNavigation();
-        echo'</head><body>';
-        echo'<div class="content">';
-        echo'<div class="heading">Bestellung</div>';
+     
+        echo <<<EOF
+        <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0"/>    
+        <title>Bestellung</title>
+        </head><body>
+        <div class="content">
+        <div class="heading">Bestellung</div>
+EOF;
 
         $this->_speisekarte->generateView('menu', $this->_pizzen);
         $this->_warenkorb->generateView('cart', 'Bestellung.php');
